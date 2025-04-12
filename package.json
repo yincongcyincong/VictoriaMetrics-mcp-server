@@ -1,0 +1,32 @@
+{
+  "name": "victoriametrics-mcp-server",
+  "version": "1.0.0",
+  "description": "mcp server for victoriametrics",
+  "type": "module",
+  "main": "src/index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bin": {
+    "vm-mcp": "./src/index.js"
+  },
+  "files": [
+    "build"
+  ],
+  "scripts": {
+    "build": "chmod 755 src/index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.0.1",
+    "@types/node-fetch": "^2.6.12",
+    "node-fetch": "^3.3.2"
+  },
+  "devDependencies": {
+    "shx": "^0.3.4",
+    "typescript": "^5.6.2"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  }
+}
