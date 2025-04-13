@@ -1,5 +1,5 @@
 {
-  "name": "victoriametrics-mcp-server",
+  "name": "@yincongcyincong/victoriametrics-mcp-server",
   "version": "1.0.0",
   "description": "mcp server for victoriametrics",
   "type": "module",
@@ -8,7 +8,7 @@
   "author": "",
   "license": "ISC",
   "bin": {
-    "vm-mcp": "./src/index.js"
+    "vm-mcp": "src/index.js"
   },
   "files": [
     "build"

@@ -45,7 +45,7 @@ const VM_DATA_RANGE_QUERY_TOOL = {
     properties: {
       query: {
         type: "string",
-        description: "promql query",
+        description: "MetricsQL query",
       },
       start: {
         type: "number",
@@ -64,11 +64,55 @@ const VM_DATA_RANGE_QUERY_TOOL = {
   }
 };
 
+const VM_DATA_QUERY_TOOL = {
+  name: "vm_data_query",
+  description: "Range query of VM data",
+  inputSchema: {
+    type: "object",
+    properties: {
+      query: {
+        type: "string",
+        description: "MetricsQL query",
+      }
+    },
+    required: ["query"],
+  }
+};
 
 const VM_TOOLS = [
   VM_DATA_WRITE_TOOL,
-  VM_DATA_RANGE_QUERY_TOOL
+  VM_DATA_RANGE_QUERY_TOOL,
+  VM_DATA_QUERY_TOOL
 ];
+
+async function vmDataQuery(query, start, end, step) {
+  let urlStr = VM_URL
+  if (urlStr === "") {
+    urlStr = VM_INSERT_URL
+  }
+  const url = new URL(urlStr + "/api/v1/query");
+  url.searchParams.append("query", query);
+  const response = await fetch(url.toString());
+  const data = await response.json();
+
+  if (data.status === "success") {
+    return {
+      content: [{
+        type: "text",
+        text: JSON.stringify(data.data),
+      }],
+      isError: false
+    };
+  } else {
+    return {
+      content: [{
+        type: "text",
+        text: "range query fail:" + await response.text(),
+      }],
+      isError: true
+    };
+  }
+}
 
 async function vmDataRangeQuery(query, start, end, step) {
   let urlStr = VM_URL
@@ -163,6 +207,10 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         return await vmMetricsDataWrite(metric, values, timestamps);
       }
       case "vm_data_range_query": {
+        const {query, start, end, step} = request.params.arguments;
+        return await vmDataRangeQuery(query, start, end, step);
+      }
+      case "vm_data_query": {
         const {query, start, end, step} = request.params.arguments;
         return await vmDataRangeQuery(query, start, end, step);
       }

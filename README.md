@@ -1,21 +1,28 @@
+# VictoriaMetrics MCP Server
+
+MCP Server for the VictoriaMetrics.
+
+## Debug
+```
 npx @modelcontextprotocol/inspector -e VM_URL=http://127.0.0.1:8428  node src/index.js
 
+```
 
+### NPX
+
+```json
 {
-"jsonrpc": "2.0",
-"id": 3,
-"params": {
-"metric": {
-"__name__": "cpu_usage",
-"instance": "server1",
-"job": "node_exporter"
-},
-"values": [
-45.3
-],
-"timestamps": [
-1744446660
-]
-},
-"method": "tools/call"
+    "mcpServers": {
+        "amap-maps": {
+            "command": "npx",
+            "args": [
+                "-y",
+                "@yincongcyincong/victoriametrics-mcp-server"
+            ],
+            "env": {
+                "AMAP_MAPS_API_KEY": ""
+            }
+        }
+    }
 }
+```
