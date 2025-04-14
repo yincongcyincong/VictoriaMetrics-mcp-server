@@ -88,7 +88,7 @@ const VM_TOOLS = [
 async function vmDataQuery(query, start, end, step) {
   let urlStr = VM_URL
   if (urlStr === "") {
-    urlStr = VM_INSERT_URL
+    urlStr = VM_SELECT_URL
   }
   const url = new URL(urlStr + "/api/v1/query");
   url.searchParams.append("query", query);
@@ -117,7 +117,7 @@ async function vmDataQuery(query, start, end, step) {
 async function vmDataRangeQuery(query, start, end, step) {
   let urlStr = VM_URL
   if (urlStr === "") {
-    urlStr = VM_INSERT_URL
+    urlStr = VM_SELECT_URL
   }
   const url = new URL(urlStr + "/api/v1/query_range");
   url.searchParams.append("query", query);
