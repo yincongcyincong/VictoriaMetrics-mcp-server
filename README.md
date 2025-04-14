@@ -20,7 +20,9 @@ npx @modelcontextprotocol/inspector -e VM_URL=http://127.0.0.1:8428  node src/in
                 "@yincongcyincong/victoriametrics-mcp-server"
             ],
             "env": {
-                "AMAP_MAPS_API_KEY": ""
+                "VM_URL": "",
+                "VM_SELECT_URL": "",
+                "VM_INSERT_URL": ""
             }
         }
     }
