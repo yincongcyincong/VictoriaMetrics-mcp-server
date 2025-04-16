@@ -37,55 +37,103 @@ const VM_DATA_WRITE_TOOL = {
   }
 };
 
-const VM_DATA_RANGE_QUERY_TOOL = {
-  name: "vm_data_range_query",
-  description: "Range query of VM data",
+const VM_PROMETHEUS_WRITE_TOOL = {
+  name: "vm_prometheus_write",
+  description: "mport Prometheus exposition format data into VictoriaMetrics",
+  inputSchema: {
+    type: "object",
+    properties: {
+      data: {
+        type: "string",
+        description: "Metrics data in Prometheus exposition format",
+      },
+    },
+    required: ["data"],
+  }
+};
+
+const VM_QUERY_RANGE_TOOL = {
+  name: "vm_query_range",
+  description: "Query time series over a time range",
   inputSchema: {
     type: "object",
     properties: {
       query: {
         type: "string",
-        description: "MetricsQL query",
+        description: "PromQL expression",
       },
       start: {
         type: "number",
-        description: "start timestamp",
+        description: "Start timestamp in Unix seconds",
       },
       end: {
         type: "number",
-        description: "end timestamp",
+        description: "End timestamp in Unix seconds",
       },
       step: {
         type: "string",
-        description: "interval of every data",
+        description: "Query resolution step width",
       }
     },
     required: ["query"],
   }
 };
 
-const VM_DATA_QUERY_TOOL = {
-  name: "vm_data_query",
-  description: "Range query of VM data",
+const VM_QUERY_TOOL = {
+  name: "vm_query",
+  description: "Query current value of a time series",
   inputSchema: {
     type: "object",
     properties: {
       query: {
         type: "string",
-        description: "MetricsQL query",
+        description: "PromQL expression to evaluate",
+      },
+      time: {
+        type: "number",
+        description: "Evaluation timestamp in Unix seconds (optional)",
       }
     },
     required: ["query"],
   }
 };
 
+const VM_LABELS_TOOL = {
+  name: "vm_labels",
+  description: "Get all unique label names",
+  inputSchema: {
+    type: "object",
+    properties: {},
+    required: [],
+  }
+};
+
+const VM_LABEL_VALUES_TOOL = {
+  name: "vm_label_values",
+  description: "Get all unique values for a specific label",
+  inputSchema: {
+    type: "object",
+    properties: {
+      label: {
+        type: "string",
+        description: "Label name to retrieve values for",
+      }
+    },
+    required: ["label"],
+  }
+};
+
+
 const VM_TOOLS = [
   VM_DATA_WRITE_TOOL,
-  VM_DATA_RANGE_QUERY_TOOL,
-  VM_DATA_QUERY_TOOL
+  VM_QUERY_RANGE_TOOL,
+  VM_QUERY_TOOL,
+  VM_LABELS_TOOL,
+  VM_LABEL_VALUES_TOOL,
+  VM_PROMETHEUS_WRITE_TOOL
 ];
 
-async function vmDataQuery(query, start, end, step) {
+async function vmDataQuery(query, step) {
   let urlStr = VM_URL
   if (urlStr === "") {
     urlStr = VM_SELECT_URL
@@ -186,6 +234,97 @@ async function vmMetricsDataWrite(metric, values, timestamps) {
   }
 }
 
+async function vmPrometheusWrite(data) {
+  let urlStr = VM_URL
+  if (urlStr === "") {
+    urlStr = VM_INSERT_URL
+  }
+  const url = new URL(urlStr + "/api/v1/import/prometheus");
+
+  const response = await fetch(url.toString(), {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'text/plain'
+    },
+    body: data
+  });
+  const status = response.status;
+
+  if (status === 204) {
+    return {
+      content: [{
+        type: "text",
+        text: response.text(),
+      }],
+      isError: false
+    };
+  } else {
+    return {
+      content: [{
+        type: "text",
+        text: response.text(),
+      }],
+      isError: true
+    };
+  }
+}
+
+async function vmLabels() {
+  let urlStr = VM_URL
+  if (urlStr === "") {
+    urlStr = VM_SELECT_URL
+  }
+  const url = new URL(urlStr + "/api/v1/labels");
+  const response = await fetch(url.toString());
+  const data = await response.json();
+
+  if (data.status === "success") {
+    return {
+      content: [{
+        type: "text",
+        text: JSON.stringify(data.data),
+      }],
+      isError: false
+    };
+  } else {
+    return {
+      content: [{
+        type: "text",
+        text: "range query fail:" + await response.text(),
+      }],
+      isError: true
+    };
+  }
+}
+
+async function vmLabelValues(label) {
+  let urlStr = VM_URL
+  if (urlStr === "") {
+    urlStr = VM_SELECT_URL
+  }
+  const url = new URL(urlStr + "/api/v1/label/"+ label +"/values");
+  const response = await fetch(url.toString());
+  const data = await response.json();
+
+  if (data.status === "success") {
+    return {
+      content: [{
+        type: "text",
+        text: JSON.stringify(data.data),
+      }],
+      isError: false
+    };
+  } else {
+    return {
+      content: [{
+        type: "text",
+        text: "range query fail:" + await response.text(),
+      }],
+      isError: true
+    };
+  }
+}
+
 // Server setup
 const server = new Server({
   name: "mcp-server/victoria-metrics",
@@ -206,13 +345,24 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         const {metric, values, timestamps} = request.params.arguments;
         return await vmMetricsDataWrite(metric, values, timestamps);
       }
-      case "vm_data_range_query": {
+      case "vm_query_range": {
         const {query, start, end, step} = request.params.arguments;
         return await vmDataRangeQuery(query, start, end, step);
       }
-      case "vm_data_query": {
+      case "vm_query": {
         const {query, start, end, step} = request.params.arguments;
-        return await vmDataRangeQuery(query, start, end, step);
+        return await vmDataQuery(query, start, end, step);
+      }
+      case "vm_labels": {
+        return await vmLabels();
+      }
+      case "vm_label_values": {
+        const {label} = request.params.arguments;
+        return await vmLabelValues(label);
+      }
+      case "vm_prometheus_write": {
+        const {data} = request.params.arguments;
+        return await vmPrometheusWrite(data);
       }
       default:
         return {
