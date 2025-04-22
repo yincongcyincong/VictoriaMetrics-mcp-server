@@ -19,6 +19,7 @@
   "dependencies": {
     "@modelcontextprotocol/sdk": "1.0.1",
     "@types/node-fetch": "^2.6.12",
+    "@yincongcyincong/victoriametrics-mcp-server": "^1.0.5",
     "node-fetch": "^3.3.2"
   },
   "devDependencies": {
