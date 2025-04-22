@@ -1,6 +1,6 @@
 {
   "name": "@yincongcyincong/victoriametrics-mcp-server",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "mcp server for victoriametrics",
   "type": "module",
   "main": "src/index.js",
