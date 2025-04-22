@@ -11,7 +11,7 @@
     "vm-mcp": "src/index.js"
   },
   "files": [
-    "build"
+    "src/index.js"
   ],
   "scripts": {
     "build": "chmod 755 src/index.js"
