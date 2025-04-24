@@ -13,7 +13,7 @@ npx @modelcontextprotocol/inspector -e VM_URL=http://127.0.0.1:8428  node src/in
 ```json
 {
     "mcpServers": {
-        "amap-maps": {
+        "victoriametrics": {
             "command": "npx",
             "args": [
                 "-y",
