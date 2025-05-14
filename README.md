@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/yincongcyincong-victoriametrics-mcp-server-badge.png)](https://mseep.ai/app/yincongcyincong-victoriametrics-mcp-server)
+
 # VictoriaMetrics MCP Server
 
 MCP Server for the VictoriaMetrics.
