@@ -1,6 +1,16 @@
 # VictoriaMetrics MCP Server
+[![smithery badge](https://smithery.ai/badge/@yincongcyincong/victoriametrics-mcp-server)](https://smithery.ai/server/@yincongcyincong/victoriametrics-mcp-server)
+
 
 MCP Server for the VictoriaMetrics.
+
+### Installing via Smithery
+
+To install VictoriaMetrics Server for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@yincongcyincong/victoriametrics-mcp-server):
+
+```bash
+npx -y @smithery/cli install @yincongcyincong/victoriametrics-mcp-server --client claude
+```
 
 ## Debug
 ```
