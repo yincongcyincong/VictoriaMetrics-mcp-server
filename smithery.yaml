@@ -1,0 +1,38 @@
+# Smithery configuration file: https://smithery.ai/docs/build/project-config
+
+startCommand:
+  type: stdio
+  configSchema:
+    # JSON Schema defining the configuration options for the MCP.
+    type: object
+    required: []
+    properties:
+      VM_URL:
+        type: string
+        default: ""
+        description: Base URL for VictoriaMetrics API (optional)
+      VM_SELECT_URL:
+        type: string
+        default: ""
+        description: Alternative URL for select queries if VM_URL is empty (optional)
+      VM_INSERT_URL:
+        type: string
+        default: ""
+        description: Alternative URL for insert/prometheus write if VM_URL is empty
+          (optional)
+  commandFunction:
+    # A JS function that produces the CLI command based on the given config to start the MCP on stdio.
+    |-
+    (config) => ({
+      command: 'node',
+      args: ['src/index.js'],
+      env: {
+        VM_URL: config.VM_URL,
+        VM_SELECT_URL: config.VM_SELECT_URL,
+        VM_INSERT_URL: config.VM_INSERT_URL
+      }
+    })
+  exampleConfig:
+    VM_URL: http://127.0.0.1:8428
+    VM_SELECT_URL: http://127.0.0.1:8428
+    VM_INSERT_URL: http://127.0.0.1:8428
