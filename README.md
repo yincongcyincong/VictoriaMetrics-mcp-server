@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/yincongcyincong-victoriametrics-mcp-server-badge.png)](https://mseep.ai/app/yincongcyincong-victoriametrics-mcp-server)
+
 # VictoriaMetrics MCP Server
 [![smithery badge](https://smithery.ai/badge/@yincongcyincong/victoriametrics-mcp-server)](https://smithery.ai/server/@yincongcyincong/victoriametrics-mcp-server)
 
