@@ -3,6 +3,9 @@
 # VictoriaMetrics MCP Server
 [![smithery badge](https://smithery.ai/badge/@yincongcyincong/victoriametrics-mcp-server)](https://smithery.ai/server/@yincongcyincong/victoriametrics-mcp-server)
 
+<a href="https://glama.ai/mcp/servers/@yincongcyincong/VictoriaMetrics-mcp-server">
+  <img width="380" height="200" src="https://glama.ai/mcp/servers/@yincongcyincong/VictoriaMetrics-mcp-server/badge" alt="VictoriaMetrics-mcp-server MCP server" />
+</a>
 
 MCP Server for the VictoriaMetrics.
 
