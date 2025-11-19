@@ -1,6 +1,7 @@
 [![MseeP.ai Security Assessment Badge](https://mseep.net/pr/yincongcyincong-victoriametrics-mcp-server-badge.png)](https://mseep.ai/app/yincongcyincong-victoriametrics-mcp-server)
 
 # VictoriaMetrics MCP Server
+[![Trust Score](https://archestra.ai/mcp-catalog/api/badge/quality/yincongcyincong/VictoriaMetrics-mcp-server)](https://archestra.ai/mcp-catalog/yincongcyincong__victoriametrics-mcp-server)
 [![smithery badge](https://smithery.ai/badge/@yincongcyincong/victoriametrics-mcp-server)](https://smithery.ai/server/@yincongcyincong/victoriametrics-mcp-server)
 
 <a href="https://glama.ai/mcp/servers/@yincongcyincong/VictoriaMetrics-mcp-server">
