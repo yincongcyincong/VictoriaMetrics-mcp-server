@@ -121,3 +121,8 @@ npx @modelcontextprotocol/inspector -e VM_URL=http://127.0.0.1:8428  node src/in
 | `label`   | `string` | Label name to get values for | ✅        |
 
 ---
+
+## Hosted deployment
+
+A hosted deployment is available on [Fronteir AI](https://fronteir.ai/mcp/yincongcyincong-victoriametrics-mcp-server).
+
